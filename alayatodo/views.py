@@ -62,6 +62,16 @@ def todos():
 
     return render_template('todos.html', todos=fetchAll())
 
+@app.route('/todo/toggle/<id>', methods=['POST'])
+def todos_toggle_completed(id):
+    if not session.get('logged_in'):
+        return redirect('/login')
+
+    g.db.execute("UPDATE todos SET completed = CASE WHEN completed = 0 THEN 1 ELSE 0 END WHERE id = %s" % id)
+    g.db.commit()
+
+    return redirect('/todo')
+
 def todos_error(code):
     if not session.get('logged_in'):
         return redirect('/login')
@@ -81,9 +91,11 @@ def todos_POST():
     if not description:
         return todos_error(ERROR_NODESCRIPTION)
 
+    completed = 1 if request.form.get('completed', 0) == 'on' else 0
+
     g.db.execute(
-        "INSERT INTO todos (user_id, description) VALUES ('%s', '%s')"
-        % (session['user']['id'], request.form.get('description', ''))
+        "INSERT INTO todos (user_id, description, completed) VALUES ('%s', '%s', %s)"
+        % (session['user']['id'], description, completed)
     )
     g.db.commit()
     return redirect('/todo')
