@@ -41,6 +41,18 @@
             </tr>
         {% endfor %}
         <tr>
+            <td colspan="3">
+                <form method="get" action="{{ url_for('todos_paged', index=0) }}">
+                    <button type="submit" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-home glyphicon-white"></span></button>
+                </form>
+            </td>
+            <td colspan="3">
+                <form method="get" action="{{ url_for('todos_paged', index=last) }}">
+                    <button type="submit" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-chevron-right glyphicon-white"></span></button>
+                </form>
+            </td>
+        </tr>
+        <tr>
             <form method="post" action="{{ url_for('todos_POST') }}">
                 <td colspan="3">
                     <input type="textbox" name="description" class="small-6 small-center" placeholder="Description...">
