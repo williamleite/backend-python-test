@@ -8,6 +8,8 @@ from flask import (
     )
 
 ERROR_NODESCRIPTION = "0x0001"
+SUCCESS_ADD = "0x0001"
+SUCCESS_REMOVE = "0x0002"
 
 @app.route('/')
 def home():
@@ -78,10 +80,15 @@ def todos_toggle_completed(id):
 
     return redirect('/todo')
 
-def todos_error(code):
-    if not session.get('logged_in'):
-        return redirect('/login')
+def todos_success(code):
+    if code == SUCCESS_ADD:
+        description = "Todo added successfully"
+    elif code == SUCCESS_REMOVE:
+        description = "Todo removed successfully"
 
+    return render_template('todos.html', todos=fetch_all(), success=(code, description))
+
+def todos_error(code):
     if code == ERROR_NODESCRIPTION:
         description = "Description is required"
 
@@ -104,7 +111,7 @@ def todos_POST():
         % (session['user']['id'], description, completed)
     )
     g.db.commit()
-    return redirect('/todo')
+    return todos_success(SUCCESS_ADD)
 
 @app.route('/todo/<id>', methods=['POST'])
 def todo_delete(id):
@@ -112,4 +119,4 @@ def todo_delete(id):
         return redirect('/login')
     g.db.execute("DELETE FROM todos WHERE id ='%s'" % id)
     g.db.commit()
-    return redirect('/todo')
+    return todos_success(SUCCESS_REMOVE)

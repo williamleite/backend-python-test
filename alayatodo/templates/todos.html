@@ -4,7 +4,9 @@
 <div class="col-md-4 col-md-offset-4">
     <h1>Todo List:</h1>
     {% if error %}
-    <div class="error"><span class="glyphicon glyphicon-remove glyphicon-white"></span>{{ '%s - %s' % (error[0], error[1]) }}</div>
+    <div class="error"><span class="glyphicon glyphicon-remove glyphicon-white"></span>{{ '%s - %s' % (error) }}</div>
+    {% elif success %}
+    <div class="success"><span class="glyphicon glyphicon-ok glyphicon-white"></span>{{ success[1] }}</div>
     {% endif %}
     <table class="table table-striped">
         <th>#</th><th>User</th><th>Description</th><th>Completed</th><th colspan="2"></th>
@@ -46,7 +48,7 @@
                 <td>
                     <input type="checkbox" name="completed" />
                 </td>
-                <td>
+                <td colspan="2">
                     <button type="submit" class="btn btn-sm btn-primary">Add</button>
                 </td>
             </form>

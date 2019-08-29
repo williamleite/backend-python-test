@@ -11,3 +11,13 @@ body {
     text-align: center;
     color: white;
 }
+
+.success {
+    background-color: green;
+    text-align: center;
+    color: white;
+}
+
+.glyphicon {
+    margin: 0px 5px 0 5px !important;
+}
