@@ -5,3 +5,9 @@ body {
 .login-form > div {
     margin-top: 10px;
 }
+
+.error {
+    background-color: maroon;
+    text-align: center;
+    color: white;
+}

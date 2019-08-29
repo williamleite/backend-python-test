@@ -7,6 +7,7 @@ from flask import (
     session
     )
 
+ERROR_NODESCRIPTION = "0x0001"
 
 @app.route('/')
 def home():
@@ -49,29 +50,43 @@ def todo(id):
     todo = cur.fetchone()
     return render_template('todo.html', todo=todo)
 
+def fetchAll():
+    cur = g.db.execute("SELECT * FROM todos")
+    return cur.fetchall()
 
 @app.route('/todo', methods=['GET'])
 @app.route('/todo/', methods=['GET'])
 def todos():
     if not session.get('logged_in'):
         return redirect('/login')
-    cur = g.db.execute("SELECT * FROM todos")
-    todos = cur.fetchall()
-    return render_template('todos.html', todos=todos)
 
+    return render_template('todos.html', todos=fetchAll())
+
+def todos_error(code):
+    if not session.get('logged_in'):
+        return redirect('/login')
+
+    if code == ERROR_NODESCRIPTION:
+        description = "Description is required"
+
+    return render_template('todos.html', todos=fetchAll(), error=(code, description))
 
 @app.route('/todo', methods=['POST'])
 @app.route('/todo/', methods=['POST'])
 def todos_POST():
     if not session.get('logged_in'):
         return redirect('/login')
+
+    description = request.form.get('description', '')
+    if not description:
+        return todos_error(ERROR_NODESCRIPTION)
+
     g.db.execute(
         "INSERT INTO todos (user_id, description) VALUES ('%s', '%s')"
         % (session['user']['id'], request.form.get('description', ''))
     )
     g.db.commit()
     return redirect('/todo')
-
 
 @app.route('/todo/<id>', methods=['POST'])
 def todo_delete(id):
