@@ -5,29 +5,13 @@ Usage:
   main.py initdb
 """
 from docopt import docopt
-import subprocess
-import sys
 
 from alayatodo import app
-
-
-def _run_sql(filename):
-    try:
-        subprocess.check_output("sqlite3 %s < %s" % (app.config['DATABASE'], filename), stderr=subprocess.STDOUT,
-                                shell=True)
-    except subprocess.CalledProcessError as ex:
-        print (ex.output)
-        sys.exit(1)
+from alayatodo.service.utils import init_db
 
 if __name__ == '__main__':
     args = docopt(__doc__)
     if args['initdb']:
-        print("Creating database")
-        _run_sql('resources/database.sql')
-        print("Running \"fixtures\"")
-        _run_sql('resources/fixtures.sql')
-        print("Running \"migrations\"")
-        _run_sql('resources/V0001__alter_todos.sql')
-        print ("AlayaTodo: Database initialized.")
+        init_db()
     else:
         app.run(use_reloader=True)

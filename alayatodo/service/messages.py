@@ -1,0 +1,7 @@
+ERROR_NODESCRIPTION = ("0x0001", "Description is required")
+ERROR_INVALIDLOGIN = ("0x0002", "Invalid login credentials!")
+ERROR_LOGINREQUIRED = ("0x0003", "Please login before accessing this view!")
+SUCCESS_ADD = ("0x0001", "Todo added successfully")
+SUCCESS_REMOVE = ("0x0002", "Todo removed successfully")
+SUCCESS_COMPLETETOGGLE = ("0x0003", "Todo completed toggled successfully")
+SUCCESS_LOGIN = ("0x0004", "Login successfully")

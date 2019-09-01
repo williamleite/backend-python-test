@@ -4,54 +4,63 @@
 <div class="col-md-4 col-md-offset-4">
     <h1>Todo List:</h1>
     <table class="table table-striped">
-        <th>#</th><th>User</th><th>Description</th><th>Completed</th><th colspan="2"></th>
+        <tr>
+            <th>#</th>
+            <th>Description</th>
+            <th>Completed</th>
+            <th colspan="2"></th>
+        </tr>
         {% if not todos %}
         <tr>
-            <td colspan="6">
+            <td colspan="5">
                 No todos were found! Try adding some or returning to the initial page!
             </td>
         </tr>
         {% endif %}
         {% for todo in todos %}
-            <tr>
-                <td>{{ todo.id }}</td>
-                <td>{{ todo.user_id }}</td>
-                <td>
-                    <a href="{{ url_for('todo', id=todo.id) }}">
-                       {{ todo.description }}
-                    </a>
-                </td>
-                <td>
-                    <form method="post" action="{{ url_for('todos_toggle_completed', id=todo.id) }}">
-                        {% if todo.completed == 1 %}
-                        <button type="submit" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-check glyphicon-white"></span></button>
-                        {% else %}
-                        <button type="submit" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove glyphicon-white"></span></button>
-                        {% endif %}
-                    </form>
-                </td>
-                <td>
-                    <form method="get" target="_blank" action="{{ url_for('todo_as_json', id=todo.id) }}">
-                        <button type="submit" class="btn btn-xs btn-info">JSON</button>
-                    </form>
-                </td>
-                <td>
-                    <form method="post" action="{{ url_for('todo_delete', id=todo.id) }}">
-                        <button type="submit" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash glyphicon-white"></span></button>
-                    </form>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ todo.id }}</td>
+            <td>
+                <a href="{{ url_for('todo', todoid=todo.id) }}">
+                    {{ todo.description }}
+                </a>
+            </td>
+            <td>
+                <form method="post" action="{{ url_for('todos_toggle_completed', todoid=todo.id) }}">
+                    {% if todo.completed == 1 %}
+                    <button type="submit" class="btn btn-xs btn-success"><span
+                            class="glyphicon glyphicon-check glyphicon-white"></span></button>
+                    {% else %}
+                    <button type="submit" class="btn btn-xs btn-danger"><span
+                            class="glyphicon glyphicon-remove glyphicon-white"></span></button>
+                    {% endif %}
+                </form>
+            </td>
+            <td>
+                <form method="get" target="_blank" action="{{ url_for('todo_as_json', todoid=todo.id) }}">
+                    <button type="submit" class="btn btn-xs btn-info">JSON</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="{{ url_for('todo_delete', todoid=todo.id) }}">
+                    <button type="submit" class="btn btn-xs btn-danger"><span
+                            class="glyphicon glyphicon-trash glyphicon-white"></span></button>
+                </form>
+            </td>
+        </tr>
         {% endfor %}
         <tr>
             <td colspan="3">
                 <form method="get" action="{{ url_for('todos_paged', index=0) }}">
-                    <button type="submit" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-home glyphicon-white"></span></button>
+                    <button type="submit" class="btn btn-xs btn-info"><span
+                            class="glyphicon glyphicon-home glyphicon-white"></span></button>
                 </form>
             </td>
-            <td colspan="3">
+            <td colspan="2">
                 {% if todos %}
                 <form method="get" action="{{ url_for('todos_paged', index=last) }}">
-                    <button type="submit" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-chevron-right glyphicon-white"></span></button>
+                    <button type="submit" class="btn btn-xs btn-info"><span
+                            class="glyphicon glyphicon-chevron-right glyphicon-white"></span></button>
                 </form>
                 {% endif %}
             </td>
@@ -62,7 +71,7 @@
                     <input type="textbox" name="description" class="small-6 small-center" placeholder="Description...">
                 </td>
                 <td>
-                    <input type="checkbox" name="completed" />
+                    <input type="checkbox" name="completed"/>
                 </td>
                 <td colspan="2">
                     <button type="submit" class="btn btn-sm btn-primary">Add</button>

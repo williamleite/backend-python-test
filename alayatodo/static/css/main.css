@@ -2,20 +2,12 @@ body {
   padding-top: 50px;
 }
 
+.loggeduser {
+    color: #9d9d9d;
+}
+
 .login-form > div {
     margin-top: 10px;
-}
-
-.error {
-    background-color: maroon;
-    text-align: center;
-    color: white;
-}
-
-.success {
-    background-color: green;
-    text-align: center;
-    color: white;
 }
 
 .glyphicon {
